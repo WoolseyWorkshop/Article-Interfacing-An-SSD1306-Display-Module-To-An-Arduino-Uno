@@ -4,7 +4,8 @@
 // Prints text to an SSD1306 display module using the U8x8 text library.
 //
 // Created by John Woolsey on 06/23/2018.
-// Copyright © 2018 Woolsey Workshop.  All rights reserved.
+// Modified by John Woolsey on 08/13/2021.
+// Copyright (c) 2018 Woolsey Workshop.  All rights reserved.
 
 
 #include <Arduino.h>
@@ -17,6 +18,9 @@
 #endif
 
 
+#define DISPLAY_I2C_ADDRESS 0x3C
+
+
 // U8x8 text library constructor for SunFounder OLED SSD1306 Display Module.
 // Use the constructor compatible with your display module.
 // See https://github.com/olikraus/u8g2/wiki/u8x8setupcpp for constructor list.
@@ -24,12 +28,13 @@
 U8X8_SSD1306_128X64_NONAME_HW_I2C display(/* reset = */ U8X8_PIN_NONE);
 
 
-void setup(void) {
+void setup() {
+   display.setI2CAddress(DISPLAY_I2C_ADDRESS * 2);  // required if display does not use default address of 0x3C
    display.begin();  // initialize U8x8 text library for selected display module
 }
 
 
-void loop(void) {
+void loop() {
    display.setFont(u8x8_font_victoriabold8_r);  // set text font (8x8 pixels)
    display.drawString(0, 0, "Hello, Arduino!");  // print text to screen (column 0, row 0)
    delay(2000);  // update screen every 2 seconds

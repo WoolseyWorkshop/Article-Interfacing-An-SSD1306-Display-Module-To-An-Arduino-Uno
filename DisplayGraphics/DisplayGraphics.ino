@@ -5,7 +5,8 @@
 // library.
 //
 // Created by John Woolsey on 06/23/2018.
-// Copyright © 2018 Woolsey Workshop.  All rights reserved.
+// Modified by John Woolsey on 08/13/2021.
+// Copyright (c) 2018 Woolsey Workshop.  All rights reserved.
 
 
 #include <Arduino.h>
@@ -16,6 +17,9 @@
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
 #endif
+
+
+#define DISPLAY_I2C_ADDRESS 0x3C
 
 
 // U8g2 graphics library constructor for SunFounder OLED SSD1306 Display Module
@@ -39,12 +43,13 @@ void drawLED(int centerX, int centerY) {
 }
 
 
-void setup(void) {
+void setup() {
+   display.setI2CAddress(DISPLAY_I2C_ADDRESS * 2);  // required if display does not use default address of 0x3C
    display.begin();  // initialize U8g2 graphics library for selected display module
 }
 
 
-void loop(void) {
+void loop() {
    int displayWidth = display.getDisplayWidth();  // width of display
    int displayHeight = display.getDisplayHeight();  // height of display
    display.firstPage();  // enable display rendering using page buffering
